@@ -16,8 +16,9 @@ if not searches:
 inputElement = driver.find_element_by_name("q")
 
 for item in searches:
+    print(item)
     inputElement.send_keys(item)
     WebDriverWait(driver, 10).until(EC.title_contains(item))
     WebDriverWait(driver, 10)
 
-driver.quit()
+#driver.quit()
