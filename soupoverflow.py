@@ -1,16 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
 
+#get the first 10,000 top posts from stackoverflow
 url = "https://stackoverflow.com/questions?page=1&sort=votes&pagesize=50"
 
-f = open("searches.txt","a")
+f = open("searches.txt", "a")
 
-for i in range(1,201):
+for i in range(1, 201):
     url = "https://stackoverflow.com/questions?page="+str(i)+"&sort=votes&pagesize=50"
     print(url)
-    text = requests.get(url,headers={}).content
-    soup = BeautifulSoup(text,'html.parser')
-    items = soup.find_all("div",attrs={"class":"summary"})
+    text = requests.get(url, headers={}).content
+    soup = BeautifulSoup(text, 'html.parser')
+    items = soup.find_all("div", attrs={"class":"summary"})
     for item in items:
         title = item.contents[1].find_all("a")[0].contents[0]
         try:
@@ -21,6 +22,7 @@ for i in range(1,201):
         for tag in item.contents[5].find_all("a"):
             tags.append(tag.contents[0])
             try:
+                # we try with tags at the end for variety
                 f.write(str(title)+' '+str(tag.contents[0])+'\n')
             except:
                 continue
